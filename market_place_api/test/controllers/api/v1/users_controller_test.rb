@@ -8,6 +8,13 @@ class Api::V1::UsersControllerTest < ActionDispatch::IntegrationTest
     @user = users(:one)
   end
 
+  test "should destroy user" do
+    assert_difference('User.count', -1) do
+      delete api_v1_user_url(@user), as: :json
+    end
+    assert_response :no_content
+  end
+
   test "should show user" do
     get api_v1_user_url(@user), as: :json
     assert_response :success
