@@ -23,11 +23,12 @@ class Api::V1::ProductsController < ApplicationController
     render json: ProductSerializer.new(@product, options).serializable_hash.to_json
   end
 
-  def index 
-    @products = Product.all
+  def index
+    @products = Product.search(params)
     render json: ProductSerializer.new(@products).serializable_hash.to_json
   end
 
+  
   def create 
     product = current_user.products.build(product_params)
     if product.save
