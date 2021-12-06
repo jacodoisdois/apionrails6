@@ -23,7 +23,7 @@ class Api::V1::ProductsController < ApplicationController
     options = { include: [:user] }
     render json: ProductSerializer.new(@product, options).serializable_hash.to_json
   end
-
+  
   def index
     @products = Product.page(current_page)
                        .per(per_page)
@@ -33,6 +33,7 @@ class Api::V1::ProductsController < ApplicationController
 
     render json: ProductSerializer.new(@products, options).serializable_hash.to_json
   end
+
   
   def create 
     product = current_user.products.build(product_params)
