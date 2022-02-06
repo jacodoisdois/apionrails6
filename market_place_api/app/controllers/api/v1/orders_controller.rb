@@ -18,10 +18,9 @@ class Api::V1::OrdersController < ApplicationController
     if order
       options = { include: [:products] }
       render json: OrderSerializer.new(order, options).serializable_hash
-    else 
+    else
       head 404
     end
-
   end
 
   def create
@@ -31,17 +30,14 @@ class Api::V1::OrdersController < ApplicationController
     if order.save
       OrderMailer.send_confirmation(order).deliver
       render json: order, status: :created
-    else 
-      render json: {errors: order.errors}, status: :unprocessable_entity
+    else
+      render json: { errors: order.errors }, status: :unprocessable_entity
     end
-
   end
-
 
   private
 
   def order_params
-    params.require(:order).permit(product_ids_and_quantities:[ :product_id, :quantity ])
+    params.require(:order).permit(product_ids_and_quantities: %i[product_id quantity])
   end
-
 end
